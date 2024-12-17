@@ -29,8 +29,6 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => $this->getDefaultPassword(),
             'remember_token' => $this->generateRememberToken(),
-            'roles' => ['user'], // Default role
-            'is_suspended' => false, // Default not suspended
         ];
     }
 

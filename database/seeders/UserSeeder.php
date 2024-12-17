@@ -13,8 +13,8 @@ class UserSeeder extends Seeder
         User::truncate();
 
         User::create([
-            'username' => 'nimda',
-            'password' => Hash::make('catz'),
+            'username' => 'pass',
+            'password' => Hash::make('pass'),
         ]);
 
     }

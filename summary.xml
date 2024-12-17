@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<metrics generated="2024-12-14T19:24:36" pdepend="@package_version@" ahh="2" andc="0" calls="20" ccn="6" ccn2="6" cloc="0" clsa="0" clsc="1" eloc="35" fanout="2" leafs="0" lloc="19" loc="45" maxDIT="2" ncloc="45" noc="1" nof="0" noi="0" nom="6" nop="1" roots="1">
+<metrics generated="2024-12-17T11:45:23" pdepend="@package_version@" ahh="2" andc="0" calls="9" ccn="5" ccn2="5" cloc="28" clsa="0" clsc="1" eloc="48" fanout="1" leafs="0" lloc="15" loc="82" maxDIT="2" ncloc="54" noc="1" nof="0" noi="0" nom="4" nop="1" roots="1">
   <files>
-    <file name="C:\Users\danie\Downloads\danielius_sepkus_prif21_2\conferenceND\app\Http\Controllers\ConferenceController.php" loc="45" cloc="0" eloc="35" lloc="19" ncloc="45"/>
+    <file name="C:\Users\danie\Downloads\danielius_sepkus_prif21_2\conferenceND\app\Http\Requests\ConferenceRequest.php" loc="82" cloc="28" eloc="48" lloc="15" ncloc="54"/>
   </files>
-  <package name="App\Http\Controllers" noc="1" noi="0" nom="6" nof="0" cr="0.15" rcr="0.15">
-    <class name="ConferenceController" fqname="App\Http\Controllers\ConferenceController" start="8" end="43" loc="36" cloc="0" eloc="22" lloc="10" ncloc="36" dit="2" noam="6" nocc="0" noom="0" nom="6" cr="0.15" rcr="0.2775" ca="0" cbo="2" ce="2" impl="0" cis="6" csz="6" npm="6" vars="0" varsi="0" varsnp="0" wmc="6" wmci="6" wmcnp="6">
-      <file name="C:\Users\danie\Downloads\danielius_sepkus_prif21_2\conferenceND\app\Http\Controllers\ConferenceController.php"/>
-      <method name="index" start="10" end="14" ccn="1" ccn2="1" loc="5" cloc="0" eloc="4" lloc="2" ncloc="5" npath="1" hnt="16" hnd="13" hv="59.207035490257" hd="5.8333333333333" hl="0.17142857142857" he="345.37437369317" ht="19.187465205176" hb="0.016408623577911" hi="10.149777512616" mi="74.322000810816"/>
-      <method name="create" start="16" end="19" ccn="1" ccn2="1" loc="4" cloc="0" eloc="3" lloc="1" ncloc="4" npath="1" hnt="7" hnd="7" hv="19.651484454403" hd="6.25" hl="0.16" he="122.82177784002" ht="6.8234321022233" hb="0.0082362400950509" hi="3.1442375127045" mi="80.401219851729"/>
-      <method name="store" start="21" end="25" ccn="1" ccn2="1" loc="5" cloc="0" eloc="4" lloc="2" ncloc="5" npath="1" hnt="17" hnd="12" hv="60.94436251226" hd="5.5" hl="0.18181818181818" he="335.19399381743" ht="18.621888545413" hb="0.016084574034124" hi="11.080793184047" mi="74.234053969732"/>
-      <method name="edit" start="27" end="30" ccn="1" ccn2="1" loc="4" cloc="0" eloc="3" lloc="1" ncloc="4" npath="1" hnt="11" hnd="10" hv="36.541209043761" hd="5.25" hl="0.19047619047619" he="191.84134747975" ht="10.657852637764" hb="0.011087668241344" hi="6.9602302940497" mi="78.514964679948"/>
-      <method name="update" start="32" end="36" ccn="1" ccn2="1" loc="5" cloc="0" eloc="4" lloc="2" ncloc="5" npath="1" hnt="17" hnd="12" hv="60.94436251226" hd="5.5" hl="0.18181818181818" he="335.19399381743" ht="18.621888545413" hb="0.016084574034124" hi="11.080793184047" mi="74.234053969732"/>
-      <method name="destroy" start="38" end="42" ccn="1" ccn2="1" loc="5" cloc="0" eloc="4" lloc="2" ncloc="5" npath="1" hnt="15" hnd="11" hv="51.891474279559" hd="6" hl="0.16666666666667" he="311.34884567736" ht="17.297158093186" hb="0.015312411273262" hi="8.6485790465932" mi="74.723057266607"/>
+  <package name="App\Http\Requests" noc="1" noi="0" nom="4" nof="0" cr="0.15" rcr="0.2775">
+    <class name="ConferenceRequest" fqname="App\Http\Requests\ConferenceRequest" start="8" end="81" loc="74" cloc="28" eloc="37" lloc="8" ncloc="46" dit="2" noam="4" nocc="0" noom="0" nom="4" cr="0.15" rcr="0.2775" ca="0" cbo="1" ce="1" impl="0" cis="3" csz="4" npm="3" vars="0" varsi="0" varsnp="0" wmc="5" wmci="5" wmcnp="4">
+      <file name="C:\Users\danie\Downloads\danielius_sepkus_prif21_2\conferenceND\app\Http\Requests\ConferenceRequest.php"/>
+      <method name="authorize" start="15" end="24" ccn="2" ccn2="2" loc="10" cloc="2" eloc="6" lloc="2" ncloc="8" npath="2" hnt="20" hnd="16" hv="80" hd="8.3571428571429" hl="0.11965811965812" he="668.57142857143" ht="37.142857142857" hb="0.025486524748024" hi="9.5726495726496" mi="69.430969648071"/>
+      <method name="rules" start="31" end="43" ccn="1" ccn2="1" loc="13" cloc="4" eloc="10" lloc="2" ncloc="9" npath="1" hnt="32" hnd="21" hv="140.55415752892" hd="5.8461538461538" hl="0.17105263157895" he="821.70122863061" ht="45.650068257256" hb="0.029242962646326" hi="24.042158524684" mi="63.012303234691"/>
+      <method name="messages" start="50" end="66" ccn="1" ccn2="1" loc="17" cloc="1" eloc="14" lloc="2" ncloc="16" npath="1" hnt="45" hnd="28" hv="216.33097149259" hd="5" hl="0.2" he="1081.654857463" ht="60.09193652572" hb="0.035124046915438" hi="43.266194298518" mi="58.513369477353"/>
+      <method name="prepareForValidation" start="71" end="80" ccn="1" ccn2="1" loc="10" cloc="3" eloc="7" lloc="2" ncloc="7" npath="1" hnt="25" hnd="16" hv="100" hd="5.8333333333333" hl="0.17142857142857" he="583.33333333333" ht="32.407407407407" hb="0.023271440911778" hi="17.142857142857" mi="67.426532525243"/>
     </class>
   </package>
 </metrics>

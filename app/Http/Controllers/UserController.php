@@ -34,37 +34,32 @@ class UserController extends Controller
      */
     public function login(Request $request): RedirectResponse
     {
-        // Validate the input fields
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        // Log the login attempt
-        Log::info('Login attempt by user.', ['username' => $request->username]);
-
-        // Attempt to authenticate with the provided credentials
-        $credentials = $request->only('username', 'password');
+        $credentials = $this->validateLogin($request);
 
         if (Auth::attempt($credentials)) {
-            // Log successful authentication
-            Log::info('User authenticated successfully.', ['username' => $request->username]);
-
-            // Regenerate the session ID for security
+            Log::info('User authenticated successfully.', ['username' => $credentials['username']]);
             $request->session()->regenerate();
-
-            // Redirect to the intended URL with a success message
             return redirect()->intended('/')->with('success', 'Welcome back!');
         }
 
-        // Log failed authentication
-        Log::warning('Failed login attempt.', ['username' => $request->username]);
-
-        // Redirect back with error messages
-        return redirect()->back()->withErrors([
-            'username' => 'The provided credentials do not match our records.',
-        ])->withInput($request->only('username'));
+        $this->logLoginError($credentials['username']);
+        return redirect()->back()
+            ->withErrors(['username' => 'Invalid credentials.'])
+            ->withInput(['username' => $credentials['username']]);
     }
+    private function validateLogin(Request $request): array
+    {
+        return $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+    }
+    private function logLoginError(string $username)
+    {
+        Log::warning('Failed login attempt.', ['username' => $username]);
+    }
+
+
 
     /**
      * Log the user out of the application.

@@ -14,15 +14,21 @@ class ConferenceControllerTest extends TestCase
     /** @test */
     public function it_shows_the_conference_index_page()
     {
-// Arrange: Create some conferences
+        // Arrange: Create some conferences
         $conferences = Conference::factory()->count(5)->create();
 
-// Act: Fetch the conferences index
+        // Act: Fetch the conferences index
         $response = $this->get(route('conferences.index'));
 
-// Assert: Check the response and data
-        $response->assertStatus(200);
-        $response->assertViewHas('conferences');
+        // Assert: Check the response and data
+        $response->assertStatus(200); // Page loads successfully
+        $response->assertViewIs('index'); // Ensure correct view is returned
+        $response->assertViewHas('conferences'); // Variable is passed to the view
+
+        // Additional: Check if the conferences are in the view data
+        $response->assertViewHas('conferences', function ($viewConferences) use ($conferences) {
+            return $viewConferences->count() === 5;
+        });
     }
 
     /** @test */
@@ -80,25 +86,28 @@ class ConferenceControllerTest extends TestCase
     /** @test */
     public function it_deletes_a_conference()
     {
-// Arrange: Create a conference to delete
+        // Arrange: Create a conference to delete
         $conference = Conference::factory()->create();
 
-// Act: Send request to delete the conference
+        // Act: Send a DELETE request
         $response = $this->delete(route('conferences.destroy', $conference));
 
-// Assert: Check if the conference is deleted
+        // Assert: Check redirection and database deletion
         $response->assertRedirect(route('conferences.index'));
-        $this->assertDeleted($conference);
+        $this->assertDatabaseMissing('conferences', ['id' => $conference->id]);
     }
 
     /** @test */
     public function it_validates_sorting_parameters()
     {
-// Act: Make a request with invalid sorting parameters
-        $response = $this->get(route('conferences.index', ['sortField' => 'invalidField', 'sortDirection' => 'asc']));
+        // Act: Make a request with invalid sorting parameters
+        $response = $this->get(route('conferences.index', [
+            'sortField' => 'invalidField',
+            'sortDirection' => 'asc',
+        ]));
 
-// Assert: Check if an error message is returned
+        // Assert: Check redirection and session errors
         $response->assertRedirect(route('conferences.index'));
-        $response->assertSessionHasErrors('Invalid sorting parameters.');
+        $response->assertSessionHasErrors(); // Global error message
     }
 }

@@ -17,30 +17,35 @@ class ConferenceController extends Controller
      * @param Request $request
      * @return View|RedirectResponse
      */
+    private function validateSortingParameters(Request $request): array
+    {
+        $sortField = $request->get('sortField', 'date');
+        $sortDirection = $request->get('sortDirection', 'asc');
+
+        if (!in_array($sortField, ['date', 'title']) || !in_array($sortDirection, ['asc', 'desc'])) {
+            throw new \InvalidArgumentException('Invalid sorting parameters.');
+        }
+
+        return [$sortField, $sortDirection];
+    }
+    private function fetchConferences(string $sortField, string $sortDirection)
+    {
+        return Conference::orderBy($sortField, $sortDirection)->paginate(10);
+    }
     public function index(Request $request): View|RedirectResponse
     {
         Log::info('Fetching all conferences for display.');
 
-        $sortField = $request->get('sortField', 'date');
-        $sortDirection = $request->get('sortDirection', 'asc');
+        try {
+            [$sortField, $sortDirection] = $this->validateSortingParameters($request);
+            $conferences = $this->fetchConferences($sortField, $sortDirection);
+            $totalConferences = $conferences->total();
 
-        // Validate sorting parameters
-        if (!in_array($sortField, ['date', 'title']) || !in_array($sortDirection, ['asc', 'desc'])) {
-            return redirect()->route('conferences.index')->withErrors('Invalid sorting parameters.');
+            Log::info("Total conferences retrieved: {$totalConferences}");
+            return view('index', compact('conferences', 'totalConferences', 'sortField', 'sortDirection'));
+        } catch (\InvalidArgumentException $e) {
+            return redirect()->route('conferences.index')->withErrors($e->getMessage());
         }
-
-        $conferences = Conference::orderBy($sortField, $sortDirection)->paginate(10);
-        $totalConferences = $conferences->total();
-
-        Log::info("Total conferences retrieved: {$totalConferences}");
-        Log::info("Sorting by: {$sortField} in {$sortDirection} order.");
-
-        return view('index', [
-            'conferences' => $conferences,
-            'totalConferences' => $totalConferences,
-            'sortField' => $sortField,
-            'sortDirection' => $sortDirection,
-        ]);
     }
 
     /**
@@ -63,22 +68,30 @@ class ConferenceController extends Controller
      * @param ConferenceRequest $request
      * @return RedirectResponse
      */
+    private function saveConference(array $data, ?Conference $conference = null): Conference
+    {
+        return $conference ? tap($conference)->update($data) : Conference::create($data);
+    }
+
+    private function logOperation(string $action, Conference $conference)
+    {
+        Log::info("Conference {$action} successfully with ID: {$conference->id}");
+    }
+
     public function store(ConferenceRequest $request): RedirectResponse
     {
-        Log::info('Processing conference creation.', $request->all());
-
         try {
-            $conference = Conference::create($request->validated());
-            Log::info("Conference created successfully with ID: {$conference->id}");
+            $conference = $this->saveConference($request->validated());
+            $this->logOperation('created', $conference);
 
             return redirect()->route('conferences.index')
                 ->with('success', 'Conference created successfully!');
         } catch (\Exception $e) {
             Log::error('Error creating conference:', ['error' => $e->getMessage()]);
-
             return redirect()->back()->withErrors('Failed to create conference.');
         }
     }
+
 
     /**
      * Show the form for editing the specified conference.

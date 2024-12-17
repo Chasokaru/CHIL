@@ -70,12 +70,18 @@ class ConferenceRequest extends FormRequest
      */
     protected function prepareForValidation(): void
     {
-        // Log the preparation of input data
-        Log::info('Preparing data for ConferenceRequest validation.', $this->all());
-
-        $this->merge([
-            'title' => trim($this->title), // Trimming whitespace from the title
-            'address' => trim($this->address), // Trimming whitespace from the address
-        ]);
+        $this->sanitizeTitle();
+        $this->sanitizeAddress();
     }
+
+    private function sanitizeTitle()
+    {
+        $this->merge(['title' => trim($this->title)]);
+    }
+
+    private function sanitizeAddress()
+    {
+        $this->merge(['address' => trim($this->address)]);
+    }
+
 }

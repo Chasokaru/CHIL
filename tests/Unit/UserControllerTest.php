@@ -21,45 +21,62 @@ class UserControllerTest extends TestCase
         $response->assertViewHas('instructions');
     }
 
-    /** @test */
+/** @test */
     public function it_logs_in_the_user_with_valid_credentials()
     {
-        // Arrange
+        // Arrange: Create a user with a known password
         $user = User::factory()->create(['password' => bcrypt('password')]);
 
-        // Act
-        $response = $this->post(route('login'), ['username' => $user->username, 'password' => 'password']);
+        // Start the session explicitly before sending the request
+        session()->start();
 
-        // Assert
+        // Act: Send a POST request to the login route with valid credentials
+        $response = $this->post(route('login'), [
+            'username' => 'nimda',
+            'password' => 'catz',
+        ]);
+
+        // Assert: Check that the user is redirected
         $response->assertRedirect('/');
+
+        // Assert: Check if the session contains the success message
         $response->assertSessionHas('success', 'Welcome back!');
+
+        // Assert: Check if the user is authenticated
         $this->assertAuthenticatedAs($user);
     }
 
-    /** @test */
+
+/** @test */
     public function it_fails_to_log_in_with_invalid_credentials()
     {
-        // Act
-        $response = $this->post(route('login'), ['username' => 'nonexistent', 'password' => 'invalid']);
+        // Act: Send a POST request to the login route with invalid credentials
+        $response = $this->post(route('login'), [
+            'username' => 'nonexistent',
+            'password' => 'invalid',
+        ]);
 
-        // Assert
+        // Assert: Check that the user is redirected back to the login page
         $response->assertRedirect(route('login'));
         $response->assertSessionHasErrors('username');
-        $this->assertGuest();
+        $this->assertGuest(); // Ensure the user is not authenticated
     }
+
 
     /** @test */
     public function it_logs_out_the_user()
     {
-        // Arrange
+        // Arrange: Create and authenticate a user
         $user = User::factory()->create();
 
-        // Act
-        $this->actingAs($user)->post(route('logout'));
+        // Act: Log in the user
+        $this->actingAs($user);
 
-        // Assert
-        $this->assertGuest();
+        // Act: Send a POST request to the logout route
         $response = $this->post(route('logout'));
+
+        // Assert: Check that the user is logged out
+        $this->assertGuest(); // Ensure the user is logged out
         $response->assertRedirect('/');
     }
 }
