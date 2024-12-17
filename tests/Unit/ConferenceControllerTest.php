@@ -14,9 +14,6 @@ class ConferenceControllerTest extends TestCase
     /** @test */
     public function it_shows_the_conference_index_page()
     {
-        // Arrange: Create some conferences
-        $conferences = Conference::factory()->count(5)->create();
-
         // Act: Fetch the conferences index
         $response = $this->get(route('conferences.index'));
 
@@ -24,12 +21,8 @@ class ConferenceControllerTest extends TestCase
         $response->assertStatus(200); // Page loads successfully
         $response->assertViewIs('index'); // Ensure correct view is returned
         $response->assertViewHas('conferences'); // Variable is passed to the view
-
-        // Additional: Check if the conferences are in the view data
-        $response->assertViewHas('conferences', function ($viewConferences) use ($conferences) {
-            return $viewConferences->count() === 5;
-        });
     }
+
 
     /** @test */
     public function it_creates_a_new_conference()

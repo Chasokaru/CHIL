@@ -1,26 +1,18 @@
 <?php
-
 // Specify the path to your PHPMD executable (adjust the path if necessary)
 $phpmdExecutable = './vendor/bin/phpmd';
-
 // Specify the directory or file to analyze
 $directoryToAnalyze = 'app/Http/Controllers/ConferenceController.php';
-
 // Specify the report format (html, xml, txt)
 $reportFormat = 'html';
-
 // Specify the output file name for the report
 $reportFile = 'phpmd_report.html';
-
 // Specify the rule set (e.g., design includes RFC and other complexity-related metrics)
 $ruleset = 'design';
-
 // Construct the PHPMD command
 $command = "$phpmdExecutable $directoryToAnalyze $reportFormat --reportfile=$reportFile --ruleset=$ruleset";
-
 // Execute the command
 exec($command, $output, $returnCode);
-
 // Check if the command ran successfully
 if ($returnCode === 0) {
     echo "PHPMD report generated successfully: $reportFile\n";
@@ -29,5 +21,3 @@ if ($returnCode === 0) {
 } else {
     echo "Error executing PHPMD: " . implode("\n", $output);
 }
-
-?>
